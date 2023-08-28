@@ -35,9 +35,9 @@ const addUser = async (req, res) => {
     const { name, email, age } = req.body;
 
     const user = await userSchema.create({
-      name: name,
-      age: age,
-      email: email,
+      name,
+      age,
+      email,
     });
 
     res.json(user);
@@ -57,9 +57,9 @@ const editUser = async (req, res) => {
       },
       {
         $set: {
-          name: name,
-          age: age,
-          email: email,
+          name,
+          age,
+          email,
         },
       }
     );

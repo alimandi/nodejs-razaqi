@@ -21,7 +21,7 @@ const getPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await postSchema.find().populate("createBy");
+    const posts = await postSchema.find().populate(["createBy", "coverId"]);
 
     res.json({
       message: "sucsess",
@@ -57,16 +57,18 @@ const editPost = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { title, description } = req.body;
+    const { title, description, createBy, coverId } = req.body;
     const post = await postSchema.updateOne(
       {
         _id: id,
       },
       {
         $set: {
-          title: title,
-          description: description,
+          title,
+          description,
           createAt: new Date(),
+          createBy,
+          coverId,
         },
       }
     );

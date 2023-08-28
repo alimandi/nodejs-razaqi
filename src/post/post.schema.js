@@ -7,6 +7,10 @@ const postsSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "users",
   },
+  coverId: {
+    type: mongoose.Types.ObjectId,
+    ref: "uploads",
+  },
 });
 
 module.exports = mongoose.model("posts", postsSchema);

@@ -6,7 +6,9 @@ const getPost = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const post = await postSchema.findById(id).populate("createBy");
+    const post = await postSchema
+      .findById(id)
+      .populate(["createBy", "coverId"]);
 
     res.json({
       message: "sucsess",
@@ -32,13 +34,14 @@ const getPosts = async (req, res) => {
 
 const addPost = async (req, res) => {
   try {
-    const { title, description, createBy } = req.body;
+    const { title, description, createBy, coverId } = req.body;
 
     const post = await postSchema.create({
       title,
       description,
       createAt: new Date(),
       createBy,
+      coverId,
     });
 
     res.json({

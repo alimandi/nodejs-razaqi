@@ -4,5 +4,9 @@ const uploadSchema = new mongoose.Schema({
   size: Number,
   path: String,
   mimeType: String,
+  createBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "users",
+  },
 });
-module.exports = mongoose.model("upload", uploadSchema);
+module.exports = mongoose.model("uploads", uploadSchema);

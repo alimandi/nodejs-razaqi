@@ -21,7 +21,7 @@ const getPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await postSchema.find().populate(["createBy", "coverId"]);
+    const posts = await postSchema.find().populate("coverId");
 
     res.json({
       message: "sucsess",
@@ -32,32 +32,39 @@ const getPosts = async (req, res) => {
   }
 };
 
-const addPost = async (req, res) => {
+const addPost = async (req, res, user) => {
   try {
-    const { title, description, createBy, coverId } = req.body;
+    const userId = req.headers.userid;
+    const user = await userSchema.findById(userId);
+    req.user = user;
+    const { title, description, coverId } = req.body;
 
     const post = await postSchema.create({
       title,
       description,
       createAt: new Date(),
-      createBy,
       coverId,
+      createBy: req.user._id,
     });
 
     res.json({
       message: "sucsess",
-      posts: { post },
+      posts: { post, user },
     });
   } catch (error) {
     res.json({ message: error.message });
   }
+  user();
 };
 
-const editPost = async (req, res) => {
+const editPost = async (req, res, user) => {
   try {
     const { id } = req.params;
+    const userId = req.headers.userid;
+    const user = await userSchema.findById(userId);
+    req.user = user;
+    const { title, description, coverId } = req.body;
 
-    const { title, description, createBy, coverId } = req.body;
     const post = await postSchema.updateOne(
       {
         _id: id,
@@ -66,8 +73,8 @@ const editPost = async (req, res) => {
         $set: {
           title,
           description,
-          createAt: new Date(),
-          createBy,
+          updateAt: new Date(),
+          createBy: req.user._id,
           coverId,
         },
       }
@@ -75,11 +82,12 @@ const editPost = async (req, res) => {
 
     res.json({
       message: "sucsess",
-      posts: { post },
+      posts: { post, user },
     });
   } catch (error) {
     res.json({ message: error.message });
   }
+  user();
 };
 
 const removePost = async (req, res) => {

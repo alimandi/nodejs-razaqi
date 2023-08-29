@@ -3,10 +3,9 @@ const postsSchema = new mongoose.Schema({
   title: String,
   description: String,
   createAt: Date,
-  createBy: {
-    type: mongoose.Types.ObjectId,
-    ref: "users",
-  },
+  updateAt: Date,
+  createBy: String,
+  updateBy: String,
   coverId: {
     type: mongoose.Types.ObjectId,
     ref: "uploads",

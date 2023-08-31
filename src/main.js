@@ -6,6 +6,7 @@ const postController = require("./post/post.controller");
 const userController = require("./user/user.controller");
 const uploadcontroller = require("./upload/upload.controller");
 const mongoose = require("mongoose");
+const userMiddleware = require("./user/user.middleware");
 
 mongoose.connect("mongodb://0.0.0.0:27017/testDb");
 
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
 app.use(cors());
 app.use(express.json());
 app.use("/users", userController);
-// app.use("/posts", postController);
+app.use(userMiddleware);
 app.use("/posts", postController);
 app.use("/upload", uploadcontroller);
 

@@ -1,9 +1,4 @@
-const fs = require("fs");
 const uploadSchema = require("./upload.schema");
-const userSchema = require("../user/user.schema");
-const { default: mongoose } = require("mongoose");
-const path = require("path");
-const { Console, log } = require("console");
 
 const getfile = async (req, res) => {
   try {
@@ -20,46 +15,38 @@ const getfile = async (req, res) => {
   }
 };
 
-const getfiles = async (req, res, user) => {
+const getfiles = async (req, res) => {
   try {
-    const userId = req.headers.userid;
-    const user = await userSchema.findById(userId);
-    req.user = user;
     const uploadsGet = await uploadSchema.find({});
     res.json({
       message: "sucsess",
-      files: { uploadsGet, user },
+      files: { uploadsGet },
     });
   } catch (error) {
     res.json({
       message: error.message,
     });
   }
-  user();
 };
 
-const upload = async (req, res, user) => {
+const upload = async (req, res) => {
   try {
-    const userId = req.headers.userid;
-    const user = await userSchema.findById(userId);
-    req.user = user;
     const upload = await uploadSchema.create({
       filename: req.file.filename,
       size: req.file.size,
       path: req.file.path,
       mimeType: req.file.mimetype,
-      createBy: req.headers.userid,
+      createBy: req.user._id,
     });
     res.json({
       message: "sucsess",
-      file: { upload, user },
+      file: { upload },
     });
   } catch (error) {
     res.json({
       message: error.message,
     });
   }
-  user();
 };
 
 module.exports = {

@@ -37,7 +37,7 @@ const addPost = async (req, res) => {
       title,
       description,
       createAt: new Date(),
-      createBy: req.user._id,
+      createBy: req.headers._id,
       coverId,
     });
 

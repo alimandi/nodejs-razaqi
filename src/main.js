@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 
 const userRegister = require("./register/register");
 const authenticateJWT = require("./user/userAuth.middleware");
+const userLogin = require("./login/login");
 
 mongoose.connect("mongodb://0.0.0.0:27017/testDb");
 
@@ -21,6 +22,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use("/", userRegister);
+app.use("/", userLogin);
 app.use(authenticateJWT);
 app.use("/users", userController);
 

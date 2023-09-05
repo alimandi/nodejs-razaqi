@@ -1,22 +1,19 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const userSchema = require("../user/user.schema");
+const { Error } = require("mongoose");
 const userLogin = express.Router();
 const accessTokenSecret = "1234567890";
 userLogin.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const trueEmail = email.toLowerCase().trim();
-    const truePassword = password.trim();
-
     const user = await userSchema.findOne({
-      email: trueEmail,
-      password: truePassword,
+      email: email.toLowerCase().trim(),
+      password: password.trim(),
     });
-    if (user) {
-      const accessToken = jwt.sign({ userId: user._id }, accessTokenSecret);
-      res.json(accessToken);
-    }
+    if (!user) throw new Error("email or password incarect");
+    const accessToken = jwt.sign({ userId: user._id }, accessTokenSecret);
+    res.json(accessToken);
   } catch (error) {
     res.json({ message: error.message });
   }

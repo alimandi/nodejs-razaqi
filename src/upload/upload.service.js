@@ -17,7 +17,7 @@ const getfile = async (req, res) => {
 
 const getfiles = async (req, res) => {
   try {
-    const uploadsGet = await uploadSchema.find({});
+    const uploadsGet = await uploadSchema.find({ createBy: req.user._id });
     res.json({
       message: "sucsess",
       files: { uploadsGet },

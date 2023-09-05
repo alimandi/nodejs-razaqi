@@ -4,7 +4,10 @@ const userSchema = new mongoose.Schema({
   name: String,
   age: Number,
   createAt: Number,
-  password: String,
+  password: {
+    type: String,
+    required: "password is required",
+  },
   email: {
     type: String,
     required: "email is required",

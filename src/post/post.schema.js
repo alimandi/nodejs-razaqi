@@ -1,7 +1,13 @@
 const mongoose = require("mongoose");
 const postsSchema = new mongoose.Schema({
-  title: String,
-  description: String,
+  title: {
+    type: String,
+    required: "title is required",
+  },
+  description: {
+    type: String,
+    required: "description is required",
+  },
   createAt: Date,
   updateAt: Date,
   createBy: String,

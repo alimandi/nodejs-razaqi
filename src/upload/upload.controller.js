@@ -1,17 +1,14 @@
 const express = require("express");
 const uploadService = require("./upload.service");
 const multer = require("multer");
-
-const path = require("path");
 const router = express.Router();
-
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, "src/public/");
   },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, "ax" + ext);
+  filename: (req, file, cb) => {
+    const filename = `${Date.now()}-${file.originalname}`;
+    cb(null, filename);
   },
 });
 

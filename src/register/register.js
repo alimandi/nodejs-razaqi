@@ -8,8 +8,8 @@ userRegister.post("/register", async (req, res) => {
     const { password, email, name, age } = req.body;
 
     const user = await userSchema.create({
-      password,
-      email,
+      password: password.trim(),
+      email: email.toLowerCase().trim(),
       name,
       age,
     });
